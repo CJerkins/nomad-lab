@@ -9,22 +9,22 @@ if [ ! -d /tmp/archive ]; then
   sudo mkdir /tmp/archive/
 fi
 
-# Install Docker Community Edition
-echo "Docker Install Beginning..."
-sudo apt-get remove docker docker-engine docker.io
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-sudo add-apt-repository \
-      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) \
-      stable"
-sudo apt-get update -y
-sudo apt-get install -y docker-ce
-sudo service docker restart
-# Configure Docker to be run as the vagrant user
-sudo usermod -aG docker vagrant
-sudo docker --version
+# # Install Docker Community Edition
+# echo "Docker Install Beginning..."
+# sudo apt-get remove docker docker-engine docker.io
+# sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+# sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  sudo apt-key add -
+# sudo apt-key fingerprint 0EBFCD88
+# sudo add-apt-repository \
+#       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+#       $(lsb_release -cs) \
+#       stable"
+# sudo apt-get update -y
+# sudo apt-get install -y docker-ce
+# sudo service docker restart
+# # Configure Docker to be run as the vagrant user
+# sudo usermod -aG docker vagrant
+# sudo docker --version
 
 echo "Nomad Install Beginning..."
 # For now we use a static version. Set to the latest tested version you want here.
@@ -86,6 +86,7 @@ SCRIPT
 
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/ubuntu1604" # 16.04 LTS
+    config.vm.provision "docker"
 
     config.vm.provision "file", source: "~/nomad-lab/nomad-config", destination: "~/nomad-config"
     config.vm.provision "file", source: "~/nomad-lab/consul-config", destination: "~/consul-config"
@@ -104,6 +105,7 @@ Vagrant.configure(2) do |config|
         end
         n.vm.hostname = "nomad-a-#{i}"
         n.vm.network "private_network", ip: "172.16.1.#{i+100}"
+        n.vm.network "forwarded_port", guest: 4646, host: 4646, auto_correct: true
       end
     end
   end
