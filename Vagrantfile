@@ -125,3 +125,4 @@ Vagrant.configure(2) do |config|
           n.vm.network "forwarded_port", guest: 4646, host: 4646, auto_correct: true
         end  
     end
+end
