@@ -87,9 +87,9 @@ SCRIPT
 Vagrant.configure(2) do |config|
     config.vm.box = "generic/ubuntu1604" # 16.04 LTS
 
-    config.vm.provision "file", source: "~/nomad-vagrant-lab/nomad-config", destination: "~/nomad-config"
-    config.vm.provision "file", source: "~/nomad-vagrant-lab/consul-config", destination: "~/consul-config"
-    config.vm.provision "file", source: "~/nomad-vagrant-lab/launch.sh", destination: "~/launch.sh"
+    config.vm.provision "file", source: "~/nomad-lab/nomad-config", destination: "~/nomad-config"
+    config.vm.provision "file", source: "~/nomad-lab/consul-config", destination: "~/consul-config"
+    config.vm.provision "file", source: "~/nomad-lab/launch.sh", destination: "~/launch.sh"
 
     config.vm.provider "libvirt" do |vb|
           vb.memory = "1024"
