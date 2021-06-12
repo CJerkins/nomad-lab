@@ -27,3 +27,7 @@ client {
   network_interface = "eth1"
   servers           = ["172.16.1.101", "172.16.1.102", "172.16.1.103"]
 }
+
+consul {
+  address = "127.0.0.1:8500"
+}
